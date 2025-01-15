@@ -65,8 +65,11 @@ export const HomePage = () => {
       });
   };
   
-  useEffect(() => {
+  useEffect(() => { 
+let token = localStorage.getItem("tokenforcar");
+  if(token){
     getdata()
+ }
     setCars(mockCarsData);
   }, []);
   
@@ -80,7 +83,14 @@ export const HomePage = () => {
     setCars(sortedCars);
   };
   const handleDelete=(id)=>{
-    axios.delete(`https://attryb-assigment-1.onrender.com/car/deleteCar/${id}`)
+    axios.delete(`https://attryb-assigment-1.onrender.com/car/deleteCar/${id}`,
+{
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+)
     .then((res) => {
       console.log("Server Response:", res.data)
       alert(res.data.msg)
