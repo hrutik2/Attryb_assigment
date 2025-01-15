@@ -2,6 +2,6 @@ const mongoose=require("mongoose")
 
 require("dotenv").config();
 
-const connection=mongoose.connect(process.env.mangoDB_url)
+const Connection=mongoose.connect(process.env.mangoDB_url)
 
-module.exports={connection}
+module.exports={Connection}
