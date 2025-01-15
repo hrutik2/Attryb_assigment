@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const user=express.Router()
 require("dotenv").config();
 
-user.post("/register",async (req,res)=> {
+user.post("/register",async(req,res)=> {
     const { name,email,password}=req.body
     try {
         const existinguser=await User.findOne({email})

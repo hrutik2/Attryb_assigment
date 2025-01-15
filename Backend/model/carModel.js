@@ -1,7 +1,7 @@
 const mongoose=require("mongoose")
 
 const carSchema=mongoose.Schema({
-    title:String,
+    name:String,
     price:Number,
     description:String,
     image:String,
