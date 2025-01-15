@@ -2,10 +2,10 @@ const express=require("express")
 const { User } = require("../model/userModel")
 const bcrypt=require("bcrypt")
 const jwt = require("jsonwebtoken");
-const user=express.Router()
+const userRoutes=express.Router()
 require("dotenv").config();
 
-user.post("/register",async(req,res)=> {
+userRoutes.post("/register",async(req,res)=> {
     const { name,email,password}=req.body
     try {
         const existinguser=await User.findOne({email})
@@ -22,7 +22,7 @@ user.post("/register",async(req,res)=> {
          return res.status(400).send({msg:"Internal Server Error"})
     }
 })
-user.post("/login",async(req,res)=>{
+userRoutes.post("/login",async(req,res)=>{
     const {email,password}=req.body
     try {
         const existinguser=await User.findOne({email})
@@ -46,4 +46,4 @@ user.post("/login",async(req,res)=>{
         return res.status(400).send({msg:"Internal Server Error"}) 
     }
 })
-module.exports=user;
+module.exports={userRoutes}
