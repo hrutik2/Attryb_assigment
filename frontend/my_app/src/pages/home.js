@@ -79,6 +79,13 @@ export const HomePage = () => {
     });
     setCars(sortedCars);
   };
+  const handleDelete=(id)=>{
+    axios.delete(`https://attryb-assigment-1.onrender.com/car/deleteCar/${id}`)
+    .then((res) => {
+      console.log("Server Response:", res.data)
+      alert(res.data.msg)
+    })
+  }
 
   const handleFilter = () => {
     const filteredCars = mockCarsData.filter(
@@ -130,7 +137,7 @@ export const HomePage = () => {
               <h3>{car.name}</h3>
               <p className="price">${car.price}</p>
               
-              <button>Delete</button>
+              <button onClick={()=>handleDelete(car._id)}>Delete</button>
               <button>Show detail</button>
             </div>
           </CarCard>
