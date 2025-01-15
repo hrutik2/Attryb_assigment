@@ -4,12 +4,25 @@ const carmodle = require("../model/carsmodel");
 
 const CarRoutes = express.Router();
 
-
 CarRoutes.get("/", authMiddleware, async (req, res) => {
   try {
-    const cars = await carmodle.find(req.query); 
+    const cars = await carmodle.find(req.query); // Use query parameters for filtering
+    res.status(200).json(cars);
   } catch (err) {
-    res.status(500).send({ message: err.message });
+    console.error("Error fetching cars:", err);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+});
+CarRoutes.get("/:id", authMiddleware, async (req, res) => {
+  try {
+    const car = await carmodle.findById(req.params.id);
+    if (!car) {
+      return res.status(404).send({ message: "Car not found" });
+    }
+    res.status(200).json(car);
+  } catch (err) {
+    console.error("Error fetching car by ID:", err);
+    res.status(500).send({ message: "Internal Server Error" });
   }
 });
 

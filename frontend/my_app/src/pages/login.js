@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -23,7 +24,13 @@ export const Login = () => {
       setError("All fields are required");
       return;
     }
-
+   else{
+    axios.post(`https://attryb-assigment-1.onrender.com/users/login`,formData)
+    .then((res) =>{
+      console.log(res.data);
+      localStorage.setItem("tokenforcar",res.data.token)
+    })
+   }
    
     console.log("Login data submitted:", formData);
     setError("");

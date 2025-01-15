@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
+import axios from "axios";
 
 export const Signup = () => {
   const [formData, setFormData] = useState({
@@ -23,11 +23,25 @@ export const Signup = () => {
       setError("All fields are required");
       return;
     }
+    else{
+      axios.post("https://attryb-assigment-1.onrender.com/users/register",formData)
+      .then(res=>{
+        console.log(res.data.msg)
+        alert(res.data.msg)
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    }
 
    
-    console.log("User data submitted:", formData);
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+    })
     setError("");
-    alert("Signup successful!");
+    
   };
 
   return (

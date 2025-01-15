@@ -1,4 +1,5 @@
 
+import axios from 'axios';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
@@ -38,10 +39,37 @@ export const HomePage = () => {
   const [order, setOrder] = useState('asc');
   const [filterColor, setFilterColor] = useState('');
   const Nav=useNavigate()
+  const getdata = () => {
+    let token = localStorage.getItem("tokenforcar");
+    console.log("Token being used:", token);
+  
+    axios
+      .get("https://attryb-assigment-1.onrender.com/car", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      })
+      .then((res) => {
+        console.log("Server Response:", res.data);
+        setCars(res.data); 
+      })
+      .catch((err) => {
+        if (err.response) {
+          console.error("Error Response:", err.response.data);
+        } else if (err.request) {
+          console.error("No Response:", err.request);
+        } else {
+          console.error("Request Setup Error:", err.message);
+        }
+      });
+  };
+  
   useEffect(() => {
+    getdata()
     setCars(mockCarsData);
   }, []);
-
+  
   const handleSort = () => {
     const sortedCars = [...cars].sort((a, b) => {
       if (sortBy === 'price' || sortBy === 'Mileage') {
@@ -101,9 +129,9 @@ export const HomePage = () => {
             <div className="details">
               <h3>{car.name}</h3>
               <p className="price">${car.price}</p>
-              <p>{car.description}</p>
-              <p>Color: {car.color}</p>
-              <p>Mileage: {car.Mileage} miles</p>
+              
+              <button>Delete</button>
+              <button>Show detail</button>
             </div>
           </CarCard>
         ))}

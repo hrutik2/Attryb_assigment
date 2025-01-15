@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
+import { useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 export const CarForm = () => {
+  const navigate=useNavigate()
   const [formData, setFormData] = useState({
     title: "",
     price: "",
@@ -49,13 +51,38 @@ export const CarForm = () => {
       setError("All fields are required");
       return;
     }
+    else{
+      let token=localStorage.getItem("tokenforcar")
+      axios.post("https://attryb-assigment-1.onrender.com/car/addcar",formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`, 
+            "Content-Type": "application/json", 
+          },
+        }
+      )
+      .then(res=>{
+        console.log(res)
+        alert(res.data.mgs)
+        navigate("/")
+      })
+      .catch(err=>{
+        console.log(err)
+      })
+    }
 
-    // You can integrate this with your backend API
+    
     console.log("Car data submitted:", formData);
     setError("");
-    alert("Car details submitted successfully!");
+    
+   
   };
-
+   useEffect(()=>{
+    let token=localStorage.getItem("tokenforcar")
+    if(!token){
+      navigate("/login")
+    }
+   },[])
   return (
     <CarFormContainer>
       <Form onSubmit={handleSubmit}>
