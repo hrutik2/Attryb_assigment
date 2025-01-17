@@ -83,7 +83,7 @@ let token = localStorage.getItem("tokenforcar");
     setCars(sortedCars);
   };
   const handleDelete=(id)=>{
-    axios.delete(`https://attryb-assigment-1.onrender.com/car/deleteCar/${id}`,
+       let token = localStorage.getItem("tokenforcar"); axios.delete(`https://attryb-assigment-1.onrender.com/car/deleteCar/${id}`,
 {
         headers: {
           Authorization: `Bearer ${token}`,
