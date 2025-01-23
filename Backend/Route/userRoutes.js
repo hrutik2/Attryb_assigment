@@ -22,7 +22,7 @@ userRoutes.post("/register", async (req, res) => {
             return res.status(400).send({ msg: "User already exists" });
         }
 
-       
+        else{
         const hashPassword = await bcrypt.hash(password, 5);
 
         
@@ -30,6 +30,7 @@ userRoutes.post("/register", async (req, res) => {
         await newUser.save();
 
         return res.status(201).send({ msg: "User created successfully" });
+        }
     } catch (error) {
         console.error("Error during registration:", error);
         return res.status(500).send({ msg: "Internal Server Error" });
@@ -51,7 +52,7 @@ userRoutes.post("/login", async (req, res) => {
         if (!existingUser) {
             return res.status(400).send({ msg: "User does not exist" });
         }
-
+        else{
         
         const isMatch = await bcrypt.compare(password, existingUser.password);
         if (!isMatch) {
@@ -64,6 +65,7 @@ userRoutes.post("/login", async (req, res) => {
         });
 
         return res.status(200).send({ msg: "Login successful", token });
+        }
     } catch (error) {
         console.error("Error during login:", error);
         return res.status(500).send({ msg: "Internal Server Error" });
