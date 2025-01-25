@@ -4,6 +4,9 @@ import { useEffect } from "react"
 import { useNavigate } from "react-router-dom"  
 import styled from "styled-components"
 import { EditProduct } from "./editProduct"
+import { useDispatch,useSelector } from "react-redux";
+import { GetProductAction } from "../redux/action"
+
 const carData = [
     {
       id: 1,
@@ -69,16 +72,26 @@ const carData = [
   
 export const DealerProduct=()=>{
     const navigate=useNavigate();
+    const {cars}=useSelector((state)=>state||[]);
+    const dispatch=useDispatch();
     const [data,setData]=useState(carData);
     const [edit,setEdit]=useState(false);
     const [editData,setEditData]=useState(null);
+    useEffect(()=>{
+        let token=localStorage.getItem("Authtoken");
+        if(token){
+            dispatch(GetProductAction());
+        }else{
+            navigate("/Auth");
+        }
+    },[]);
     return(
         
 
         <Container>
             <h1>DealerProduct</h1>
             <SubContainer>
-                {data.map((item)=>(
+                {cars&& cars.map((item)=>(
                   <div key={item.id}>
                             <img src={item.image} alt={item.name} />
                             <h2>{item.name}</h2>

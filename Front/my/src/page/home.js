@@ -17,16 +17,16 @@ export const Home = () => {
 
 
 
-  useEffect(() => {
-    let token = localStorage.getItem("Authtoken");
-    if (token) {
-      dispatch(GetProductAction());
-    } else {
-      navigate("/Auth");
-    }
-  }, [dispatch, navigate]);
 
+  const clearFilters = () => {
+    setData([...cars]);
+    setSortByPrice("");
+    setSortByMileage("");
+    setColor("");
+    setTransmission("");
+  }
   useEffect(() => {
+    if(cars.length>0){
     let filteredData = [...cars];
 
     
@@ -53,14 +53,17 @@ export const Home = () => {
     }
 
     setData(filteredData);
-  }, [cars, sortByPrice, sortByMileage, color,Transmission]);
-  const clearFilters = () => {
-    setData([...cars]);
-    setSortByPrice("");
-    setSortByMileage("");
-    setColor("");
-    setTransmission("");
   }
+  }, [cars, sortByPrice, sortByMileage, color,Transmission]);
+
+  useEffect(() => {
+    let token = localStorage.getItem("Authtoken");
+    if (token) {
+      dispatch(GetProductAction());
+    } else {
+      navigate("/Auth");
+    }
+  }, []);
   return (
     <Container>
       <Sidebar>
