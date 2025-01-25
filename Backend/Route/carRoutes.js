@@ -6,13 +6,23 @@ const CarRoutes = express.Router();
 
 CarRoutes.get("/", authMiddleware, async (req, res) => {
   try {
-    const cars = await carmodle.find(req.body); // Use query parameters for filtering
+    const cars = await carmodle.find(req.query); // Use query parameters for filtering
     res.status(200).json(cars);
   } catch (err) {
     console.error("Error fetching cars:", err);
     res.status(500).send({ message: "Internal Server Error" });
   }
 });
+CarRoutes.get("/delear", authMiddleware, async (req, res) => {
+  try {
+    const cars = await carmodle.find({ userId: req.body.userId });
+    res.status(200).json(cars);
+  } catch (err) {
+    console.error("Error fetching cars:", err);
+    res.status(500).send({ message: "Internal Server Error" });
+  }
+});
+
 CarRoutes.get("/:id", authMiddleware, async (req, res) => {
   try {
     const car = await carmodle.findById(req.params.id);
